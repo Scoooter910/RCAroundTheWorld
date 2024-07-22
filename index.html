@@ -1,15 +1,87 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | Rockety Coon</title>
-    <link rel="shortcut icon" href="TemplateData/favicon.ico">
-    <link rel="stylesheet" href="TemplateData/style.css">
-  </head>
-  <body>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Unity WebGL Player | Rockety Coon Around The World</title>
+  <link rel="shortcut icon" href="TemplateData/favicon.ico">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: orange; /* Background color set to orange */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow: auto; /* Allow scrolling */
+      box-sizing: border-box;
+    }
+    #content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    #unity-container {
+      margin-bottom: 20px;
+    }
+    #unity-footer {
+      margin-top: 20px;
+    }
+    .scores-container {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      overflow: hidden;
+      width: 100%;
+      max-width: 600px;
+      padding: 20px;
+      box-sizing: border-box;
+      margin-bottom: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: center;
+    }
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    @media (max-width: 768px) {
+      table, th, td {
+        font-size: 14px;
+      }
+    }
+    #footer-developer {
+      position: fixed;
+      bottom: 10px;
+      font-size: 14px;
+      color: white;
+      text-align: center;
+      width: 100%;
+    }
+    #footer-developer span {
+      display: block;
+    }
+    </style>
+</head>
+<body>
+  <div id="content">
     <div id="unity-container" class="unity-desktop">
-      <canvas id="unity-canvas" width=960 height=600 tabindex="-1"></canvas>
+      <!-- Unity WebGL Player container -->
+      <canvas id="unity-canvas" width="960" height="600" tabindex="-1"></canvas>
       <div id="unity-loading-bar">
         <div id="unity-logo"></div>
         <div id="unity-progress-bar-empty">
@@ -20,24 +92,62 @@
       <div id="unity-footer">
         <div id="unity-webgl-logo"></div>
         <div id="unity-fullscreen-button"></div>
-        <div id="unity-build-title">Rockety Coon</div>
+        <div id="unity-build-title">Rockety Coon Around The World</div>
       </div>
     </div>
-    <script>
-
+    <!-- Container for displaying top scores -->
+    <div class="scores-container">
+      <h2>Top 3 High Scores</h2>
+      <table id="scoresTable">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Player Name</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Scores will be populated here dynamically -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- Developer info and copyright -->
+  <div id="footer-developer">
+    <span>Developed and created by Michele Mostoller</span>
+    <span>&copy; 2024 Rockety Coon Around The World. All rights reserved.</span>
+  </div>
+  <!-- Unity WebGL Player script and score fetching -->
+  <script>
+    // Function to fetch and display top scores
+    async function fetchScores() {
+      try {
+        const response = await fetch('http://localhost:3000/topscores');
+        if (!response.ok) throw new Error('Network response was not ok');
+        const data = await response.json();
+        const tableBody = document.querySelector('#scoresTable tbody');
+        tableBody.innerHTML = '';
+        data.forEach((score, index) => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${score.player_name}</td>
+            <td>${score.score}</td>
+          `;
+          tableBody.appendChild(row);
+        });
+      } catch (error) {
+        console.error('Error fetching scores:', error);
+      }
+    }
+    // Function to initialize Unity WebGL player
+    function initUnity() {
       var container = document.querySelector("#unity-container");
       var canvas = document.querySelector("#unity-canvas");
       var loadingBar = document.querySelector("#unity-loading-bar");
       var progressBarFull = document.querySelector("#unity-progress-bar-full");
       var fullscreenButton = document.querySelector("#unity-fullscreen-button");
       var warningBanner = document.querySelector("#unity-warning");
-
-      // Shows a temporary message banner/ribbon for a few seconds, or
-      // a permanent error message on top of the canvas if type=='error'.
-      // If type=='warning', a yellow highlight color is used.
-      // Modify or remove this function to customize the visually presented
-      // way that non-critical warnings and error messages are presented to the
-      // user.
       function unityShowBanner(msg, type) {
         function updateBannerVisibility() {
           warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
@@ -55,9 +165,8 @@
         }
         updateBannerVisibility();
       }
-
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/RCAroundTheWorld.loader.js";
+      var loaderUrl = buildUrl + "/MyWebGL3.loader.js";
       var config = {
         dataUrl: buildUrl + "/RCAroundTheWorld.data",
         frameworkUrl: buildUrl + "/RCAroundTheWorld.framework.js",
@@ -68,52 +177,43 @@
         productVersion: "1.0",
         showBanner: unityShowBanner,
       };
-
-      // By default, Unity keeps WebGL canvas render target size matched with
-      // the DOM size of the canvas element (scaled by window.devicePixelRatio)
-      // Set this to false if you want to decouple this synchronization from
-      // happening inside the engine, and you would instead like to size up
-      // the canvas DOM size and WebGL render target sizes yourself.
-      // config.matchWebGLToCanvasSize = false;
-
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        // Mobile device style: fill the whole browser client area with the game canvas:
-
         var meta = document.createElement('meta');
         meta.name = 'viewport';
         meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
         document.getElementsByTagName('head')[0].appendChild(meta);
         container.className = "unity-mobile";
         canvas.className = "unity-mobile";
-
-        // To lower canvas resolution on mobile devices to gain some
-        // performance, uncomment the following line:
-        // config.devicePixelRatio = 1;
-
-
       } else {
-        // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
-
         canvas.style.width = "960px";
         canvas.style.height = "600px";
       }
-
       loadingBar.style.display = "block";
-
       var script = document.createElement("script");
       script.src = loaderUrl;
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
           progressBarFull.style.width = 100 * progress + "%";
-              }).then((unityInstance) => {
-                loadingBar.style.display = "none";
-                fullscreenButton.onclick = () => {
-                  unityInstance.SetFullscreen(1);
-                };
-              }).catch((message) => {
-                alert(message);
-              });
-            };
+        }).then((unityInstance) => {
+          loadingBar.style.display = "none";
+          fullscreenButton.onclick = () => {
+            unityInstance.SetFullscreen(1);
+          };
+        }).catch((message) => {
+          alert(message);
+        });
+      };
+      document.body.appendChild(script);
+      // Fetch scores after Unity instance is initialized
+      fetchScores();
+    }
+    // Initialize Unity WebGL player when the page loads
+    document.addEventListener('DOMContentLoaded', function () {
+      initUnity();
+    });
+  </script>
+</body>
+</html>
 
       document.body.appendChild(script);
 
