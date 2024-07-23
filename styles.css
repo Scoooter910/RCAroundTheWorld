@@ -35,8 +35,12 @@ body {
   max-width: 960px; /* Adjust the maximum width as needed */
   height: auto; /* Maintain aspect ratio */
   display: block; /* Remove potential extra space below the canvas */
+  
+#unity-build-title {
+    text-align: center;
+    margin: 0 auto;
+    font-weight: bold; /* Make the text bold */
 }
-
 /* Footer and container styles */
 #unity-footer {
   margin-top: 20px;
