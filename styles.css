@@ -29,12 +29,7 @@ body {
   margin-bottom: 20px;
 }
 
-/* Responsive canvas sizing */
-#unity-canvas {
-  width: 100%;
-  max-width: 960px; /* Adjust the maximum width as needed */
-  height: auto; /* Maintain aspect ratio */
-  display: block; /* Remove potential extra space below the canvas */
+
   
 #unity-build-title {
     text-align: center;
