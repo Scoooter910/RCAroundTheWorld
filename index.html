@@ -11,37 +11,52 @@
     body {
       font-family: Arial, sans-serif;
       margin: 0;
-      padding-bottom: 60px;
-      background-color: orange; /* Background color set to orange */
+      padding: 0;
+      background-color: orange;
       display: flex;
       flex-direction: column;
       align-items: center;
-      overflow: auto; /* Allow scrolling */
+      overflow: auto;
       box-sizing: border-box;
     }
     #content {
       display: flex;
       flex-direction: column;
       align-items: center;
+      margin-top: 20px; /* Ensure content is not hidden behind Unity container */
     }
     #unity-container {
-      margin-bottom: 20px;
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 960px;
+      z-index: 10;
     }
-    #unity-footer {
-      margin-top: 20px;
+    #unity-canvas {
+      background: #231F20;
+    }
+    #unity-loading-bar {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      display: none;
     }
     .scores-container {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  width: 100%;
-  max-width: 600px;
-  padding: 20px;
-  box-sizing: border-box;
-  margin-bottom: 60px; /* Adjust as needed to ensure it's not covered by the footer */
-  display: flex;
-  flex-direction: column; /* Ensure table fits within the container */
-}
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 600px;
+      padding: 20px;
+      box-sizing: border-box;
+      margin-bottom: 60px; /* Ensure footer does not overlap */
+      display: flex;
+      flex-direction: column;
+      z-index: 20; /* Ensure it's above Unity container */
+    }
     table {
       width: 100%;
       border-collapse: collapse;
@@ -65,23 +80,24 @@
     }
     #footer-developer {
       position: fixed;
-      bottom: 0px;
+      bottom: 0;
       font-size: 14px;
       color: white;
       text-align: center;
       width: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 10px;
       box-sizing: border-box;
+      z-index: 30; /* Ensure it stays on top */
     }
     #footer-developer span {
       display: block;
     }
- 
   </style>
 </head>
 <body>
   <div id="content">
     <div id="unity-container" class="unity-desktop">
-      <!-- Unity WebGL Player container -->
       <canvas id="unity-canvas" width="960" height="600" tabindex="-1"></canvas>
       <div id="unity-loading-bar">
         <div id="unity-logo"></div>
@@ -89,14 +105,13 @@
           <div id="unity-progress-bar-full"></div>
         </div>
       </div>
-      <div id="unity-warning"> </div>
+      <div id="unity-warning"></div>
       <div id="unity-footer">
         <div id="unity-webgl-logo"></div>
         <div id="unity-fullscreen-button"></div>
         <div id="unity-build-title"><center><b>Rockety Coon Around The World</center></b></div>
       </div>
     </div>
-    <!-- Container for displaying top scores -->
     <div class="scores-container">
       <h2>Top 3 High Scores</h2>
       <table id="scoresTable">
@@ -113,12 +128,10 @@
       </table>
     </div>
   </div>
-  <!-- Developer info and copyright -->
   <div id="footer-developer">
     <span>Developed and created by Michele Mostoller</span>
     <span>&copy; 2024 Rockety Coon Around The World. All rights reserved.</span>
   </div>
-  <!-- Unity WebGL Player script and score fetching -->
   <script>
     // Function to fetch and display top scores
     async function fetchScores() {
@@ -205,10 +218,8 @@
         });
       };
       document.body.appendChild(script);
-      // Fetch scores after Unity instance is initialized
       fetchScores();
     }
-    // Initialize Unity WebGL player when the page loads
     document.addEventListener('DOMContentLoaded', function () {
       initUnity();
     });
