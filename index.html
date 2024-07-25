@@ -6,43 +6,32 @@
   <title>Unity WebGL Player | Rockety Coon Around The World</title>
   <link rel="shortcut icon" href="TemplateData/favicon.ico">
   <link rel="stylesheet" href="TemplateData/style.css">
-  <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css">
   <style>
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background-color: orange;
+      background-color: orange; /* Background color set to orange */
       display: flex;
       flex-direction: column;
       align-items: center;
-      overflow: auto;
+      overflow: auto; /* Allow scrolling */
       box-sizing: border-box;
     }
     #content {
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-top: 20px; /* Ensure content is not hidden behind Unity container */
+      width: 100%;
+      padding: 20px;
+      box-sizing: border-box;
     }
     #unity-container {
-      position: absolute;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 960px;
-      z-index: 10;
+      margin-bottom: 20px;
     }
-    #unity-canvas {
-      background: #231F20;
-    }
-    #unity-loading-bar {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      display: none;
+    #unity-footer {
+      margin-top: 20px;
     }
     .scores-container {
       background-color: white;
@@ -52,10 +41,7 @@
       max-width: 600px;
       padding: 20px;
       box-sizing: border-box;
-      margin-bottom: 60px; /* Ensure footer does not overlap */
-      display: flex;
-      flex-direction: column;
-      z-index: 20; /* Ensure it's above Unity container */
+      margin-bottom: 20px;
     }
     table {
       width: 100%;
@@ -80,24 +66,22 @@
     }
     #footer-developer {
       position: fixed;
-      bottom: 0;
+      bottom: 10px;
       font-size: 14px;
       color: white;
       text-align: center;
       width: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 10px;
-      box-sizing: border-box;
-      z-index: 30; /* Ensure it stays on top */
     }
     #footer-developer span {
       display: block;
     }
+ 
   </style>
 </head>
 <body>
   <div id="content">
     <div id="unity-container" class="unity-desktop">
+      <!-- Unity WebGL Player container -->
       <canvas id="unity-canvas" width="960" height="600" tabindex="-1"></canvas>
       <div id="unity-loading-bar">
         <div id="unity-logo"></div>
@@ -105,13 +89,14 @@
           <div id="unity-progress-bar-full"></div>
         </div>
       </div>
-      <div id="unity-warning"></div>
+      <div id="unity-warning"> </div>
       <div id="unity-footer">
         <div id="unity-webgl-logo"></div>
         <div id="unity-fullscreen-button"></div>
         <div id="unity-build-title"><center><b>Rockety Coon Around The World</center></b></div>
       </div>
     </div>
+    <!-- Container for displaying top scores -->
     <div class="scores-container">
       <h2>Top 3 High Scores</h2>
       <table id="scoresTable">
@@ -128,10 +113,12 @@
       </table>
     </div>
   </div>
+  <!-- Developer info and copyright -->
   <div id="footer-developer">
     <span>Developed and created by Michele Mostoller</span>
     <span>&copy; 2024 Rockety Coon Around The World. All rights reserved.</span>
   </div>
+  <!-- Unity WebGL Player script and score fetching -->
   <script>
     // Function to fetch and display top scores
     async function fetchScores() {
@@ -218,8 +205,10 @@
         });
       };
       document.body.appendChild(script);
+      // Fetch scores after Unity instance is initialized
       fetchScores();
     }
+    // Initialize Unity WebGL player when the page loads
     document.addEventListener('DOMContentLoaded', function () {
       initUnity();
     });
