@@ -24,22 +24,52 @@
       </div>
     </div>
 
-    <!-- Top Scores Table -->
-    <div id="top-scores-table">
-      <h2>Top 3 Scores</h2>
-      <table>
+     <!-- Container for displaying top scores -->
+    <div class="scores-container">
+      <h2>Top 3 High Scores</h2>
+      <table id="scoresTable">
         <thead>
           <tr>
             <th>Rank</th>
-            <th>Player</th>
+            <th>Player Name</th>
             <th>Score</th>
           </tr>
         </thead>
-        <tbody id="scores-body">
-          <!-- Scores will be populated here -->
+        <tbody>
+          <!-- Scores will be populated here dynamically -->
         </tbody>
       </table>
     </div>
+  </div>
+  <!-- Developer info and copyright -->
+  <div id="footer-developer">
+    <span>Developed and created by Michele Mostoller</span>
+    <span>&copy; 2024 Rockety Coon Around The World. All rights reserved.</span>
+  </div>
+  <!-- Unity WebGL Player script and score fetching -->
+  <script>
+    // Function to fetch and display top scores
+    async function fetchScores() {
+      try {
+        const response = await fetch('https://fast-forest-98337-6bb7252141c0.herokuapp.com/topscores');
+        if (!response.ok) throw new Error('Network response was not ok');
+        const data = await response.json();
+        const tableBody = document.querySelector('#scoresTable tbody');
+        tableBody.innerHTML = '';
+        data.forEach((score, index) => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${score.player_name}</td>
+            <td>${score.score}</td>
+          `;
+          tableBody.appendChild(row);
+        });
+      } catch (error) {
+        console.error('Error fetching scores:', error);
+      }
+    }
+
 
     <script>
       var container = document.querySelector("#unity-container");
