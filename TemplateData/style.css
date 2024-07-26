@@ -43,7 +43,7 @@ body {
 #unity-container.unity-mobile {
   position: relative;
   width: 100%;
-  height: 100%;
+  height: 100vh;
 }
 
 /* Adjust canvas size for mobile devices */
