@@ -2,13 +2,12 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-  overflow: auto; /* Ensure the body can scroll */
+  overflow: auto; /* Allow scrolling */
 }
 
-/* Ensures the body can grow and takes full height */
 body {
   font-family: Arial, sans-serif;
-  background-color: orange;
+  background-color: orange; /* Background color set to orange */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,26 +21,31 @@ body {
   width: 100%;
   padding: 20px;
   box-sizing: border-box;
-  flex-grow: 1; /* Allows content to grow */
+  flex-grow: 1; /* Allow the content to grow and take available space */
 }
 
 #unity-container {
   margin-bottom: 20px;
   width: 100%;
-  max-width: 960px; /* Ensures the container doesn't exceed this width */
-}
-
-/* Adjustments for Unity WebGL player */
-#unity-container.unity-desktop {
+  max-width: 960px; /* Ensure the container doesn't exceed this width */
   position: relative; /* Ensure proper positioning */
 }
 
+/* Styles specific to Unity player on desktop */
+#unity-container.unity-desktop {
+  position: relative;
+  /* Center the container horizontally */
+  margin: 0 auto;
+}
+
+/* Styles specific to Unity player on mobile */
 #unity-container.unity-mobile {
   position: relative;
   width: 100%;
   height: 100%;
 }
 
+/* Adjust canvas size for mobile devices */
 .unity-mobile #unity-canvas {
   width: 100%;
   height: 100%;
@@ -71,11 +75,11 @@ body {
 }
 
 #unity-footer {
-  position: relative;
+  position: relative; /* Ensure footer is positioned relative to its container */
 }
 
 .unity-mobile #unity-footer {
-  display: none;
+  display: none; /* Hide on mobile */
 }
 
 #unity-fullscreen-button {
@@ -140,6 +144,6 @@ tr:nth-child(even) {
   color: white;
   text-align: center;
   width: 100%;
-  background-color: black;
+  background-color: black; /* Background color to make the text readable */
   padding: 10px;
 }
