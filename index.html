@@ -8,17 +8,22 @@
   <link rel="stylesheet" href="TemplateData/style.css">
   
   <style>
-    body {
-      font-family: Arial, sans-serif;
+    html, body {
       margin: 0;
       padding: 0;
+      height: 100%;
+      overflow: auto; /* Allow scrolling */
+    }
+    
+    body {
+      font-family: Arial, sans-serif;
       background-color: orange; /* Background color set to orange */
       display: flex;
       flex-direction: column;
       align-items: center;
-      overflow: auto; /* Allow scrolling */
       box-sizing: border-box;
     }
+
     #content {
       display: flex;
       flex-direction: column;
@@ -26,15 +31,16 @@
       width: 100%;
       padding: 20px;
       box-sizing: border-box;
+      flex-grow: 1; /* Allow the content to grow and take available space */
     }
+
     #unity-container {
       margin-bottom: 20px;
+      width: 100%;
+      max-width: 960px; /* Ensure the container doesn't exceed this width */
     }
-    #unity-footer {
-      margin-top: 20px;
-    }
+
     .scores-container {
-    
       background-color: white;
       border-radius: 8px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -43,41 +49,44 @@
       padding: 20px;
       box-sizing: border-box;
       margin-bottom: 20px;
-      position: relative;
     }
+
     table {
       width: 100%;
       border-collapse: collapse;
     }
+
     th, td {
       border: 1px solid #ddd;
       padding: 12px;
       text-align: center;
     }
+
     th {
       background-color: #4CAF50;
       color: white;
     }
+
     tr:nth-child(even) {
       background-color: #f9f9f9;
     }
+
     @media (max-width: 768px) {
       table, th, td {
         font-size: 14px;
       }
     }
+
     #footer-developer {
       position: fixed;
-      bottom: 10px;
+      bottom: 0;
       font-size: 14px;
       color: white;
       text-align: center;
       width: 100%;
+      background-color: black; /* Background color to make the text readable */
+      padding: 10px;
     }
-    #footer-developer span {
-      display: block;
-    }
- 
   </style>
 </head>
 <body>
@@ -143,6 +152,7 @@
         console.error('Error fetching scores:', error);
       }
     }
+    
     // Function to initialize Unity WebGL player
     function initUnity() {
       var container = document.querySelector("#unity-container");
@@ -151,6 +161,7 @@
       var progressBarFull = document.querySelector("#unity-progress-bar-full");
       var fullscreenButton = document.querySelector("#unity-fullscreen-button");
       var warningBanner = document.querySelector("#unity-warning");
+      
       function unityShowBanner(msg, type) {
         function updateBannerVisibility() {
           warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
@@ -168,6 +179,7 @@
         }
         updateBannerVisibility();
       }
+
       var buildUrl = "Build";
       var loaderUrl = buildUrl + "/RCAroundTheWorld.loader.js";
       var config = {
@@ -180,6 +192,7 @@
         productVersion: "1.0",
         showBanner: unityShowBanner,
       };
+
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         var meta = document.createElement('meta');
         meta.name = 'viewport';
@@ -191,6 +204,7 @@
         canvas.style.width = "960px";
         canvas.style.height = "600px";
       }
+      
       loadingBar.style.display = "block";
       var script = document.createElement("script");
       script.src = loaderUrl;
@@ -207,9 +221,11 @@
         });
       };
       document.body.appendChild(script);
+      
       // Fetch scores after Unity instance is initialized
       fetchScores();
     }
+    
     // Initialize Unity WebGL player when the page loads
     document.addEventListener('DOMContentLoaded', function () {
       initUnity();
