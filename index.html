@@ -6,87 +6,8 @@
   <title>Unity WebGL Player | Rockety Coon Around The World</title>
   <link rel="shortcut icon" href="TemplateData/favicon.ico">
   <link rel="stylesheet" href="TemplateData/style.css">
-  
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: auto; /* Allow scrolling */
-    }
-    
-    body {
-      font-family: Arial, sans-serif;
-      background-color: orange; /* Background color set to orange */
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      box-sizing: border-box;
-    }
-
-    #content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-      padding: 20px;
-      box-sizing: border-box;
-      flex-grow: 1; /* Allow the content to grow and take available space */
-    }
-
-    #unity-container {
-      margin-bottom: 20px;
-      width: 100%;
-      max-width: 960px; /* Ensure the container doesn't exceed this width */
-    }
-
-    .scores-container {
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      width: 100%;
-      max-width: 600px;
-      padding: 20px;
-      box-sizing: border-box;
-      margin-bottom: 20px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th, td {
-      border: 1px solid #ddd;
-      padding: 12px;
-      text-align: center;
-    }
-
-    th {
-      background-color: #4CAF50;
-      color: white;
-    }
-
-    tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
-
-    @media (max-width: 768px) {
-      table, th, td {
-        font-size: 14px;
-      }
-    }
-
-    #footer-developer {
-      position: fixed;
-      bottom: 0;
-      font-size: 14px;
-      color: white;
-      text-align: center;
-      width: 100%;
-      background-color: black; /* Background color to make the text readable */
-      padding: 10px;
-    }
+    /* Insert updated CSS here */
   </style>
 </head>
 <body>
@@ -100,7 +21,7 @@
           <div id="unity-progress-bar-full"></div>
         </div>
       </div>
-      <div id="unity-warning"> </div>
+      <div id="unity-warning"></div>
       <div id="unity-footer">
         <div id="unity-webgl-logo"></div>
         <div id="unity-fullscreen-button"></div>
