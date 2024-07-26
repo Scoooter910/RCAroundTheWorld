@@ -24,7 +24,17 @@ body {
 }
 
 #unity-canvas {
-  background: #231F20;
+  max-width: 100%;
+  max-height: 100%;
+  width: 960px; /* Maintain aspect ratio with fixed width */
+  height: 600px; /* Maintain aspect ratio with fixed height */
+}
+
+@media (max-width: 768px) {
+  #unity-canvas {
+    width: 100%; /* Responsive width */
+    height: auto; /* Maintain aspect ratio */
+  }
 }
 
 .unity-mobile #unity-canvas {
