@@ -6,6 +6,7 @@ body {
 
 #unity-container { 
   position: absolute; 
+  z-index: 1; /* Ensure the game is on top */
 }
 
 #unity-container.unity-desktop { 
@@ -35,6 +36,7 @@ body {
   top: 50%; 
   transform: translate(-50%, -50%); 
   display: none; 
+  z-index: 2; /* Ensure loading bar is above the game */
 }
 
 #unity-logo { 
@@ -60,6 +62,7 @@ body {
 
 #unity-footer { 
   position: relative; 
+  z-index: 2; /* Ensure footer is above the game */
 }
 
 .unity-mobile #unity-footer { 
@@ -97,18 +100,19 @@ body {
   background: white; 
   padding: 10px; 
   display: none; 
+  z-index: 3; /* Ensure warning banner is above everything else */
 }
 
 #top-scores-table {
-  position: absolute;
+  position: fixed; /* Changed to fixed to prevent overlaying the game */
   top: 10%;
-  left: 50%;
-  transform: translate(-50%);
+  right: 5%;
   background-color: white;
   border: 1px solid black;
   border-radius: 5px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
   padding: 10px;
+  z-index: 4; /* Ensure table is above everything else */
 }
 
 #top-scores-table table {
