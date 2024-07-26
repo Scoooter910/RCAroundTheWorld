@@ -1,46 +1,52 @@
-/* General reset for body */
-body {
-  padding: 0;
+html, body {
   margin: 0;
-  overflow: auto; /* Ensure the body can scroll */
-  font-family: Arial, sans-serif;
-  background-color: orange; /* Background color set to orange */
-}
-
-/* Ensure that html takes the full height */
-html {
+  padding: 0;
   height: 100%;
+  overflow: auto; /* Ensure the body can scroll */
 }
 
-/* Container for Unity WebGL player */
-#unity-container {
-  position: relative; /* Changed from absolute to relative */
+/* Ensures the body can grow and takes full height */
+body {
+  font-family: Arial, sans-serif;
+  background-color: orange;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+#content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
-  max-width: 960px; /* Set maximum width */
-  margin: 0 auto; /* Center align horizontally */
+  padding: 20px;
+  box-sizing: border-box;
+  flex-grow: 1; /* Allows content to grow */
 }
 
-/* Styles specific to Unity player on desktop */
+#unity-container {
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 960px; /* Ensures the container doesn't exceed this width */
+}
+
+/* Adjustments for Unity WebGL player */
 #unity-container.unity-desktop {
-  /* Center the container horizontally and vertically */
-  margin: 0 auto;
-  position: relative;
+  position: relative; /* Ensure proper positioning */
 }
 
-/* Styles specific to Unity player on mobile */
 #unity-container.unity-mobile {
   position: relative;
   width: 100%;
   height: 100%;
 }
 
-/* Adjust canvas size for mobile devices */
 .unity-mobile #unity-canvas {
   width: 100%;
   height: 100%;
 }
 
-/* Loading bar styling */
 #unity-loading-bar {
   position: absolute;
   left: 50%;
@@ -49,7 +55,6 @@ html {
   display: none; /* Hide by default */
 }
 
-/* Progress bar styling */
 #unity-progress-bar-empty {
   width: 141px;
   height: 18px;
@@ -65,16 +70,14 @@ html {
   background: url('progress-bar-full-dark.png') no-repeat center;
 }
 
-/* Footer for Unity WebGL player */
 #unity-footer {
-  position: relative; /* Ensure footer is positioned relative to its container */
+  position: relative;
 }
 
 .unity-mobile #unity-footer {
-  display: none; /* Hide on mobile */
+  display: none;
 }
 
-/* Fullscreen button styling */
 #unity-fullscreen-button {
   cursor: pointer;
   float: right;
@@ -83,7 +86,6 @@ html {
   background: url('fullscreen-button.png') no-repeat center;
 }
 
-/* Warning banner styling */
 #unity-warning {
   position: absolute;
   left: 50%;
@@ -92,4 +94,52 @@ html {
   background: white;
   padding: 10px;
   display: none;
+}
+
+.scores-container {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+  box-sizing: border-box;
+  margin-bottom: 20px; /* Ensure space below scores table */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: center;
+}
+
+th {
+  background-color: #4CAF50;
+  color: white;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+@media (max-width: 768px) {
+  table, th, td {
+    font-size: 14px;
+  }
+}
+
+#footer-developer {
+  position: fixed;
+  bottom: 0;
+  font-size: 14px;
+  color: white;
+  text-align: center;
+  width: 100%;
+  background-color: black;
+  padding: 10px;
 }
