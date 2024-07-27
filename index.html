@@ -6,98 +6,11 @@
   <title>Unity WebGL Player | Rockety Coon Around The World</title>
   <link rel="shortcut icon" href="TemplateData/favicon.ico">
   <link rel="stylesheet" href="TemplateData/style.css">
-  <link rel="stylesheet" href="styles.css">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: orange;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      overflow: auto;
-      box-sizing: border-box;
-    }
-    #content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 20px; /* Ensure content is not hidden behind Unity container */
-    }
-    #unity-container {
-      position: absolute;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 960px;
-      z-index: 10;
-    }
-    #unity-canvas {
-      background: #231F20;
-    }
-    #unity-loading-bar {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      display: none;
-    }
-    .scores-container {
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      width: 100%;
-      max-width: 600px;
-      padding: 20px;
-      box-sizing: border-box;
-      margin-bottom: 60px; /* Ensure footer does not overlap */
-      display: flex;
-      flex-direction: column;
-      z-index: 20; /* Ensure it's above Unity container */
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    th, td {
-      border: 1px solid #ddd;
-      padding: 12px;
-      text-align: center;
-    }
-    th {
-      background-color: #4CAF50;
-      color: white;
-    }
-    tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
-    @media (max-width: 768px) {
-      table, th, td {
-        font-size: 14px;
-      }
-    }
-    #footer-developer {
-      position: fixed;
-      bottom: 0;
-      font-size: 14px;
-      color: white;
-      text-align: center;
-      width: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 10px;
-      box-sizing: border-box;
-      z-index: 30; /* Ensure it stays on top */
-    }
-    #footer-developer span {
-      display: block;
-    }
-  </style>
 </head>
 <body>
   <div id="content">
     <div id="unity-container" class="unity-desktop">
+      <!-- Unity WebGL Player container -->
       <canvas id="unity-canvas" width="960" height="600" tabindex="-1"></canvas>
       <div id="unity-loading-bar">
         <div id="unity-logo"></div>
@@ -109,9 +22,12 @@
       <div id="unity-footer">
         <div id="unity-webgl-logo"></div>
         <div id="unity-fullscreen-button"></div>
+      </br>
         <div id="unity-build-title"><center><b>Rockety Coon Around The World</center></b></div>
       </div>
     </div>
+  </br>
+    <!-- Container for displaying top scores -->
     <div class="scores-container">
       <h2>Top 3 High Scores</h2>
       <table id="scoresTable">
@@ -128,10 +44,12 @@
       </table>
     </div>
   </div>
+  <!-- Developer info and copyright -->
   <div id="footer-developer">
     <span>Developed and created by Michele Mostoller</span>
     <span>&copy; 2024 Rockety Coon Around The World. All rights reserved.</span>
   </div>
+  <!-- Unity WebGL Player script and score fetching -->
   <script>
     // Function to fetch and display top scores
     async function fetchScores() {
@@ -154,6 +72,7 @@
         console.error('Error fetching scores:', error);
       }
     }
+    
     // Function to initialize Unity WebGL player
     function initUnity() {
       var container = document.querySelector("#unity-container");
@@ -162,6 +81,7 @@
       var progressBarFull = document.querySelector("#unity-progress-bar-full");
       var fullscreenButton = document.querySelector("#unity-fullscreen-button");
       var warningBanner = document.querySelector("#unity-warning");
+      
       function unityShowBanner(msg, type) {
         function updateBannerVisibility() {
           warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
@@ -179,6 +99,7 @@
         }
         updateBannerVisibility();
       }
+
       var buildUrl = "Build";
       var loaderUrl = buildUrl + "/RCAroundTheWorld.loader.js";
       var config = {
@@ -191,6 +112,7 @@
         productVersion: "1.0",
         showBanner: unityShowBanner,
       };
+
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         var meta = document.createElement('meta');
         meta.name = 'viewport';
@@ -202,6 +124,7 @@
         canvas.style.width = "960px";
         canvas.style.height = "600px";
       }
+      
       loadingBar.style.display = "block";
       var script = document.createElement("script");
       script.src = loaderUrl;
@@ -218,8 +141,12 @@
         });
       };
       document.body.appendChild(script);
+      
+      // Fetch scores after Unity instance is initialized
       fetchScores();
     }
+    
+    // Initialize Unity WebGL player when the page loads
     document.addEventListener('DOMContentLoaded', function () {
       initUnity();
     });
